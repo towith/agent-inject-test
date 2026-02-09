@@ -1,0 +1,41 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>agent</artifactId>
+    <groupId>cal.injector.agent</groupId>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <!--        <java.home>${env.JAVA_HOME}</java.home>-->
+        <java.home>C:/Program Files/Eclipse Adoptium/jdk-8.0.472.8-hotspot</java.home>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <artifactId>junit-jupiter-api</artifactId>
+            <groupId>org.junit.jupiter</groupId>
+            <version>5.11.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-commons</artifactId>
+            <version>1.12.1</version>
+        </dependency>        <!-- In Java 9+, methods are in the module, but tools.jar logic is legacy.
+             Since we run on 17, we usually don't need tools.jar.
+             But if compiling on 8, we might.
+             For simplicity assuming standard JDK layout or just runtime availability. -->
+        <dependency>
+            <groupId>com.sun</groupId>
+            <artifactId>tools</artifactId>
+            <!--        <version>${java.version}</version>-->
+            <version>1.8</version>
+            <scope>system</scope>
+            <systemPath>${java.home}/lib/tools.jar</systemPath>
+        </dependency>
+<!--        target application -->
+    </dependencies>
+
+    <build>
+    </build>
+</project>
