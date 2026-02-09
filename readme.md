@@ -8,7 +8,7 @@ Spring boot test create a separate test environment, another process. Sometimes 
 
 # Different with Arthas
 
-Principle is same. This can also be done by manual operation:
+Principle is same. This can also be done by manual operation(Theoretically, not tested):
 
 - compile test class as we do in appAndTest/test project
 - redefine classes in arthas
