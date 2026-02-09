@@ -40,10 +40,21 @@ public class BaseTest extends BaseAgentTest {
 - Run the test as normal JUnit test method, And the test code is loaded and executed in target process:
   ![img.png](img.png)
 
-# Notice
+# Note
 
 - Target application may not have the junit library dependency, so the `Assertions methods` may not work, dependency library can also inject to target jvm process, similear to [copyLib.ps1](appAndTest/test/copyLib.ps1)
   ![img_2.png](img_2.png)
+- The test class and dependency lib all will be copied to `system temp dir`/$searchPattern.test dir, which searchPattern is @RunnerConfig.appName specified in `cal.BaseTest`, all the thing need is in this dir,This dir could be uploaded to remote server, and run inject test for remote process also, You may notice there's no libArthasJniLibrary.so for linux, don't worry, it cound be copied and loaded from agent-1.0-SNAPSHOT.jar automatically at runtime.
+
+```powershell
+$classPath = "C:\Users\calfl\AppData\Local\Temp\com.example.demo.DemoApplication.test\"
+#rm -v "${classPath}agent-loader-1.0-SNAPSHOT.jar"
+#rm -v "${classPath}ArthasJniLibrary.dll"
+cd $env:TEMP
+rm -v _debug_things.zip
+&"C:\Program Files\7-Zip\7z.exe" a -mmt- _debug_things.zip $classPath/
+tssh myremote-server --upload-file _debug_things.zip  "~/.local/bin/trz -y /tmp/; cd /tmp/;unzip -o -d _debug_things _debug_things.zip; cd /tmp/_debug_things/; java -cp .:./agent-1.0-SNAPSHOT.jar:/usr/lib/jvm/java-8-openjdk-amd64/lib/tools.jar cal.injector.Executor example.jar irrigate cal.ExampleTest.testGetTargetApplicationObjects"
+```
 
 # Know Issues
 
